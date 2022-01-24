@@ -33,16 +33,11 @@ if (!$result) die("Database access failed");
 
 $rows = $result->num_rows;
 echo "<table><tr><th>Lidnummer</th><th>Achternaam</th><th>Voornaam</th><th>Postcode</th><th>Huisnummer</th><th>Emailadres</th><th>Telefoonnummer</th><th>Postcode</th><th>Straat</th><th>Woonplaats</th></tr>";
-for ($j = 0; $j < $rows; ++$j) {
-    $row = $result->fetch_array(MYSQLI_NUM);
-    $n = $row[0];
-
+while ($row = $result->fetch_array(MYSQLI_NUM)) {
     echo "<tr>";
-
-    for ($k = 0; $k < 10; ++$k) {
-        echo "<td>" . htmlspecialchars($row[$k]) . "</td> ";
+    foreach ($row as $element) {
+        echo "<td>" . htmlspecialchars($element) . "</td> ";
     }
-
     echo "<td><button type='submit' value='verander'><a href='verander.php?id=$n'>Verander</a></button></td>";
     echo "<td><button type='submit' value='verwijder'><a href='verwijder.php?id=$n'>Verwijderen</a></button></td> ";
     echo "</tr>";
@@ -63,11 +58,10 @@ $result = $mysqli->query($pcheck);
 if (!$result) die("Database access failed");
 $rows = $result->num_rows;
 echo "<table><tr><th>Postcode</th><th>Straatnaam</th><th>Plaats</th></tr>";
-for ($j = 0; $j < $rows; ++$j) {
-    $row = $result->fetch_array(MYSQLI_NUM);
+while ($row = $result->fetch_array(MYSQLI_NUM)) {
     echo "<tr>";
-    for ($k = 0; $k < 3; ++$k) {
-        echo "<td>" . htmlspecialchars($row[$k]) . "</td>";
+    foreach ($row as $element) {
+        echo "<td>" . htmlspecialchars($element) . "</td>";
     }
     echo "</tr>";
 }
