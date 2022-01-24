@@ -128,23 +128,20 @@ echo <<<_END
         <h3>Wilt u uw email wijzigen dan kan dat hier.</h3>
         Deze emailadressen zijn bekend bij ons
 _END;
-$lzien = "SELECT email.emailadres FROM email WHERE lidnummer=$id";
+$lzien = "SELECT emailadres FROM email WHERE lidnummer=$id";
 $result6 = $mysqli->query($lzien);
 if (!$result6) die("Database access failed");
 
 $rows1 = $result6->num_rows;
 echo "<table><tr><th>Emailadres</th></tr>";
-for ($j = 0; $j < $rows1; ++$j) {
-    $row1 = $result6->fetch_array(MYSQLI_NUM);
-    $n = $row1[0];
-
+while ($row1 = $result6->fetch_array(MYSQLI_ASSOC)) {
     echo "<tr>";
 
-    for ($k = 0; $k < 1; ++$k) {
-        echo "<td>" . htmlspecialchars($row1[$k]) . "</td> ";
+    foreach ($row1 as $element) {
+        echo "<td>" . htmlspecialchars($element) . "</td> ";
     }
 
-    echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&email=$n'> Verander</a>";
+    echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&email=" . $row1['emailadres'] . "'> Verander</a>";
     echo "</tr>";
 }
 
@@ -165,23 +162,20 @@ echo <<<_END
         Deze telefoonnummers zijn bekend bij ons:
 _END;
 
-$lzie = "SELECT telefoonnummers.telefoonnummer FROM telefoonnummers WHERE lidnummer=$id";
+$lzie = "SELECT telefoonnummer FROM telefoonnummers WHERE lidnummer=$id";
 $result8 = $mysqli->query($lzie);
 if (!$result8) die("Database access failed");
 
 $rows = $result8->num_rows;
 echo "<table><tr><th>Telefoonnumer</th></tr>";
-for ($j = 0; $j < $rows; ++$j) {
-    $row = $result8->fetch_array(MYSQLI_NUM);
-    $n = $row[0];
-
+while ($row = $result8->fetch_array(MYSQLI_ASSOC)) {
     echo "<tr>";
 
-    for ($k = 0; $k < 1; ++$k) {
-        echo "<td>" . htmlspecialchars($row[$k]) . "</td> ";
+    foreach ($row1 as $element) {
+        echo "<td>" . htmlspecialchars($element) . "</td> ";
     }
 
-    echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&telefoon=$n'> Verander</a>";
+    echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&telefoon=" . $row['telefoonnummer'] . "'> Verander</a>";
     echo "</tr>";
 }
 

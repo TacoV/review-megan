@@ -59,23 +59,20 @@ echo "    <html><head><title>Verander lid</title></head><body>
 ----------------------------------------------------------------------------------------------------------------------   
 <h3>Wilt u uw email verwijderen dan kan dat hier.</h3>"
     . "Deze emailadressen zijn bekend bij ons";
-$lzien = "SELECT email.emailadres FROM email WHERE lidnummer=$id";
+$lzien = "SELECT emailadres FROM email WHERE lidnummer=$id";
 $result = $mysqli->query($lzien);
 if (!$result) die("Database access failed");
 
 $rows = $result->num_rows;
 echo "<table><tr><th>Emailadres</th></tr>";
-for ($j = 0; $j < $rows; ++$j) {
-    $row = $result->fetch_array(MYSQLI_NUM);
-    $n = $row[0];
-
+while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
     echo "<tr>";
 
-    for ($k = 0; $k < 1; ++$k) {
-        echo "<td>" . htmlspecialchars($row[$k]) . "</td> ";
+    foreach ($row1 as $element) {
+        echo "<td>" . htmlspecialchars($element) . "</td> ";
     }
 
-    echo "<td><button type='submit' value='veranderen' ><a href='verwijder.php?id=$id&email=$n'>Selecteren</a>";
+    echo "<td><button type='submit' value='veranderen' ><a href='verwijder.php?id=$id&email=" . $row['emailadres'] . "'>Selecteren</a>";
     echo "</tr>";
 }
 
@@ -95,23 +92,21 @@ echo <<<_END
         <h3>Wilt u uw telefoonnummer verwijderen dan kan dat hier.</h3>
         Deze telefoonnummers zijn bekend bij ons:
 _END;
-$lzie = "SELECT telefoonnummers.telefoonnummer FROM telefoonnummers WHERE lidnummer=$id";
+$lzie = "SELECT telefoonnummer FROM telefoonnummers WHERE lidnummer=$id";
 $result = $mysqli->query($lzie);
 if (!$result) die("Database access failed");
 
 $rows = $result->num_rows;
 echo "<table><tr><th>Telefoonnumer</th></tr>";
-for ($j = 0; $j < $rows; ++$j) {
-    $row = $result->fetch_array(MYSQLI_NUM);
-    $n = $row[0];
+while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
     echo "<tr>";
 
-    for ($k = 0; $k < 1; ++$k) {
-        echo "<td>" . htmlspecialchars($row[$k]) . "</td> ";
+    foreach ($row as $element) {
+        echo "<td>" . htmlspecialchars($element) . "</td> ";
     }
 
-    echo "<td><button type='submit' value='veranderen' ><a href='verwijder.php?id=$id&telefoon=$n'>Selecteren</a>";
+    echo "<td><button type='submit' value='veranderen' ><a href='verwijder.php?id=$id&telefoon=" . $row['telefoonnummer'] . "'>Selecteren</a>";
     echo "</tr>";
 }
 
