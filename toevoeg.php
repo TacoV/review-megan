@@ -1,19 +1,19 @@
 <?php
 
 require_once 'login.php';
-$mysqli = new mysqli($hn,$un,$pw,$db);
+$mysqli = new mysqli($hn, $un, $pw, $db);
 if ($mysqli->connect_error) die("fatal error");
 
-if (isset($_POST['ptoe'])){
-    
+if (isset($_POST['ptoe'])) {
+
     $postcode = sanitizeString($_POST['postcode']);
     $adres = sanitizeString($_POST['straat']);
     $woonplaats = sanitizeString($_POST['plaats']);
     $ptoe = "INSERT INTO postcode VALUES ('$postcode','$adres','$woonplaats')";
-$result = $mysqli->query($ptoe);
-if (!$result) die ("Database access failed");
-if($result) echo "Deze postcode is toegevoegd<br><br>";
-header("Location: ledenbestand.php");
+    $result = $mysqli->query($ptoe);
+    if (!$result) die("Database access failed");
+    if ($result) echo "Deze postcode is toegevoegd<br><br>";
+    header("Location: ledenbestand.php");
 }
 
 
@@ -38,14 +38,16 @@ _END;
 
 
 
-function sanitizeString($var){
+function sanitizeString($var)
+{
     $var = strip_tags($var);
     $var = htmlentities($var);
     return $var;
 }
 
-function sanitizeMySQL($mysqliection,$var){
-    $var=$mysqliection->real_escape_string($var);
+function sanitizeMySQL($mysqliection, $var)
+{
+    $var = $mysqliection->real_escape_string($var);
     $var = sanitizeString($var);
     return $var;
 }

@@ -1,47 +1,47 @@
 <?php
 
 require_once 'login.php';
-$mysqli = new mysqli($hn,$un,$pw,$db);
+$mysqli = new mysqli($hn, $un, $pw, $db);
 if ($mysqli->connect_error) die("fatal error");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-    if (isset ($_GET["telefoon"])) $ttelnr = sanitizeString($_GET["telefoon"]);
-        else $ttelnr =  "";
+if (isset($_GET["telefoon"])) $ttelnr = sanitizeString($_GET["telefoon"]);
+else $ttelnr =  "";
 
-     if (isset ($_GET["email"])) $temail = sanitizeString($_GET["email"]);
-    else $temail= "";    
-        
-    $id= sanitizeString($_GET["id"]);
-    $olidnr = sanitizeString($_GET["id"]);     
-    
-    $test= "SELECT naam FROM lid WHERE lidnummer='$id';";    
-    $result = $mysqli->query($test);
-    $oanaam = $result->fetch_assoc()['naam'];
+if (isset($_GET["email"])) $temail = sanitizeString($_GET["email"]);
+else $temail = "";
 
-    $test1= "SELECT postcode FROM lid WHERE lidnummer='$id';";    
-    $result1 = $mysqli->query($test1);
-    $opostcode = $result1->fetch_assoc()['postcode'];
+$id = sanitizeString($_GET["id"]);
+$olidnr = sanitizeString($_GET["id"]);
 
-        $test2= "SELECT huisnummer FROM lid WHERE lidnummer='$id';";    
-    $result2 = $mysqli->query($test2);
-    $ohuisnr = $result2->fetch_assoc()['huisnummer'];
-    
-        $test3= "SELECT telefoonnummer FROM telefoonnummers WHERE lidnummer='$id';";    
-    $result3 = $mysqli->query($test3);
-    $otelnr = $result3->fetch_assoc()['telefoonnummer'];
-    
-        $test4= "SELECT emailadres FROM email WHERE lidnummer='$id';";    
-    $result4 = $mysqli->query($test4);
-    $oemail = $result4->fetch_assoc()['emailadres'];
+$test = "SELECT naam FROM lid WHERE lidnummer='$id';";
+$result = $mysqli->query($test);
+$oanaam = $result->fetch_assoc()['naam'];
 
-    $test5= "SELECT voornaam FROM lid WHERE lidnummer='$id';";    
-    $result5 = $mysqli->query($test5);
-    $ovnaam = $result5->fetch_assoc()['voornaam'];
+$test1 = "SELECT postcode FROM lid WHERE lidnummer='$id';";
+$result1 = $mysqli->query($test1);
+$opostcode = $result1->fetch_assoc()['postcode'];
 
-    
-if (isset($_POST['lpas'])){
-    
+$test2 = "SELECT huisnummer FROM lid WHERE lidnummer='$id';";
+$result2 = $mysqli->query($test2);
+$ohuisnr = $result2->fetch_assoc()['huisnummer'];
+
+$test3 = "SELECT telefoonnummer FROM telefoonnummers WHERE lidnummer='$id';";
+$result3 = $mysqli->query($test3);
+$otelnr = $result3->fetch_assoc()['telefoonnummer'];
+
+$test4 = "SELECT emailadres FROM email WHERE lidnummer='$id';";
+$result4 = $mysqli->query($test4);
+$oemail = $result4->fetch_assoc()['emailadres'];
+
+$test5 = "SELECT voornaam FROM lid WHERE lidnummer='$id';";
+$result5 = $mysqli->query($test5);
+$ovnaam = $result5->fetch_assoc()['voornaam'];
+
+
+if (isset($_POST['lpas'])) {
+
     $lidnr = $id;
     $vnaam = sanitizeString($_POST['vnaam']);
     $anaam = sanitizeString($_POST['anaam']);
@@ -49,59 +49,56 @@ if (isset($_POST['lpas'])){
     $huisnr = sanitizeString($_POST['huisnummer']);
     $telnr = sanitizeString($_POST['telnr']);
     $email = sanitizeString($_POST['email']);
-    
-   $mysqli->multi_query("UPDATE lid SET naam='$anaam', voornaam='$vnaam', postcode='$postcode', huisnummer='$huisnr' WHERE lidnummer='$lidnr'");
+
+    $mysqli->multi_query("UPDATE lid SET naam='$anaam', voornaam='$vnaam', postcode='$postcode', huisnummer='$huisnr' WHERE lidnummer='$lidnr'");
     while ($mysqli->next_result()) {
         if ($mysqli->more_results()) break;
     }
-   
-   $mysqli->query("UPDATE telefoonnummers SET telefoonnummer='$telnr', lidnummer='$lidnr' WHERE lidnummer='$lidnr'");
-   $mysqli->query("UPDATE email SET emailadres='$email' WHERE emailadres='$oemail' && lidnummer='$lidnr'");
-       header("Refresh:0");
-       print_r(error_get_last());
+
+    $mysqli->query("UPDATE telefoonnummers SET telefoonnummer='$telnr', lidnummer='$lidnr' WHERE lidnummer='$lidnr'");
+    $mysqli->query("UPDATE email SET emailadres='$email' WHERE emailadres='$oemail' && lidnummer='$lidnr'");
+    header("Refresh:0");
+    print_r(error_get_last());
 }
 
-if (isset($_POST['eaan'])){
-    
+if (isset($_POST['eaan'])) {
+
     $lidnr = $id;
     $oemail = sanitizeString($_POST['oemail']);
     $nemail = sanitizeString($_POST['nemail']);
-    
+
 
     $result7 = $mysqli->query("UPDATE email SET emailadres='$nemail' WHERE emailadres='$oemail' && lidnummer='$lidnr'");
-    if (!$result7) die ("Database access failed");
-     header("Refresh:0");
+    if (!$result7) die("Database access failed");
+    header("Refresh:0");
 }
 
-if (isset($_POST['taan'])){
-    
+if (isset($_POST['taan'])) {
+
     $lidnr = $id;
     $ntelnr = sanitizeString($_POST['ntelnr']);
     $otelnr = sanitizeString($_POST['otelnr']);
-    
-   $mysqli->query("UPDATE telefoonnummers SET telefoonnummer='$ntelnr' WHERE telefoonnummer='$otelnr' && lidnummer='$lidnr'");
-   header("Refresh:0");
-    
+
+    $mysqli->query("UPDATE telefoonnummers SET telefoonnummer='$ntelnr' WHERE telefoonnummer='$otelnr' && lidnummer='$lidnr'");
+    header("Refresh:0");
 }
 
-if (isset($_POST['etoe'])){
-    
+if (isset($_POST['etoe'])) {
+
     $lidnr = $id;
     $email = sanitizeString($_POST['email']);
-    
+
     $mysqli->query("INSERT INTO email(emailadres, lidnummer) VALUES ('$email','$lidnr')");
-       header("Refresh:0");
- 
+    header("Refresh:0");
 }
 
-if (isset($_POST['ttoe'])){
-    
+if (isset($_POST['ttoe'])) {
+
     $lidnr = $id;
     $telnr = sanitizeString($_POST['telnr']);
 
-   $mysqli->query("INSERT INTO telefoonnummers VALUES ('$telnr','$lidnr')");
-      header("Refresh:0");
-    
+    $mysqli->query("INSERT INTO telefoonnummers VALUES ('$telnr','$lidnr')");
+    header("Refresh:0");
 }
 
 echo <<<_END
@@ -132,27 +129,27 @@ echo <<<_END
         Deze emailadressen zijn bekend bij ons
 _END;
 $lzien = "SELECT email.emailadres FROM email WHERE lidnummer=$id";
-    $result6 = $mysqli->query($lzien);
-    if (!$result6) die ("Database access failed");
+$result6 = $mysqli->query($lzien);
+if (!$result6) die("Database access failed");
 
-    $rows1 = $result6->num_rows;
-    echo "<table><tr><th>Emailadres</th></tr>";
-    for ($j=0;$j<$rows1; ++$j){
-        $row1 = $result6->fetch_array(MYSQLI_NUM);    
-                $n=$row1[0];
+$rows1 = $result6->num_rows;
+echo "<table><tr><th>Emailadres</th></tr>";
+for ($j = 0; $j < $rows1; ++$j) {
+    $row1 = $result6->fetch_array(MYSQLI_NUM);
+    $n = $row1[0];
 
-        echo "<tr>";
-        
-        for ($k =0; $k<1;++$k){           
-        echo "<td>". htmlspecialchars($row1[$k]). "</td> ";
-        }
-        
-        echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&email=$n'> Verander</a>";        
-        echo "</tr>";
+    echo "<tr>";
+
+    for ($k = 0; $k < 1; ++$k) {
+        echo "<td>" . htmlspecialchars($row1[$k]) . "</td> ";
     }
 
-    echo "</table>";
-   
+    echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&email=$n'> Verander</a>";
+    echo "</tr>";
+}
+
+echo "</table>";
+
 
 echo <<<_END
        
@@ -169,28 +166,26 @@ echo <<<_END
 _END;
 
 $lzie = "SELECT telefoonnummers.telefoonnummer FROM telefoonnummers WHERE lidnummer=$id";
-    $result8 = $mysqli->query($lzie);
-    if (!$result8) die ("Database access failed");
+$result8 = $mysqli->query($lzie);
+if (!$result8) die("Database access failed");
 
-    $rows = $result8->num_rows;
-    echo "<table><tr><th>Telefoonnumer</th></tr>";
-    for ($j=0;$j<$rows; ++$j){
-        $row = $result8->fetch_array(MYSQLI_NUM);    
-                $n=$row[0];
+$rows = $result8->num_rows;
+echo "<table><tr><th>Telefoonnumer</th></tr>";
+for ($j = 0; $j < $rows; ++$j) {
+    $row = $result8->fetch_array(MYSQLI_NUM);
+    $n = $row[0];
 
-        echo "<tr>";
-        
-        for ($k =0; $k<1;++$k){           
-        echo "<td>". htmlspecialchars($row[$k]). "</td> ";
-        }
-        
-        echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&telefoon=$n'> Verander</a>";        
-        echo "</tr>";
-            
+    echo "<tr>";
 
+    for ($k = 0; $k < 1; ++$k) {
+        echo "<td>" . htmlspecialchars($row[$k]) . "</td> ";
     }
 
-    echo "</table>";
+    echo "<td><button type='submit' value='veranderen' ><a href='verander.php?id=$id&telefoon=$n'> Verander</a>";
+    echo "</tr>";
+}
+
+echo "</table>";
 
 echo <<<_END
         
@@ -221,14 +216,16 @@ _END;
 
 
 
-function sanitizeString($var){
+function sanitizeString($var)
+{
     $var = strip_tags($var);
     $var = htmlentities($var);
     return $var;
 }
 
-function sanitizeMySQL($mysqliection,$var){
-    $var=$mysqliection->real_escape_string($var);
+function sanitizeMySQL($mysqliection, $var)
+{
+    $var = $mysqliection->real_escape_string($var);
     $var = sanitizeString($var);
     return $var;
 }
