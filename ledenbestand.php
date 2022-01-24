@@ -1,8 +1,11 @@
 <?php
 
 require_once 'login.php';
+
 $mysqli = new mysqli($hn, $un, $pw, $db);
-if ($mysqli->connect_error) die("fatal error");
+if ($mysqli->connect_error) {
+    die("Could not connect to the database");
+}
 
 //Ledenbestand inzien
 echo <<<_END
@@ -24,12 +27,16 @@ _END;
 
 //if (isset($_POST['lzien'])){    
 
-$lzien = "SELECT lid.*, email.emailadres, t.telefoonnummer, postcode.* FROM lid 
-            LEFT JOIN email ON lid.lidnummer=email.lidnummer
-            LEFT JOIN telefoonnummers t ON lid.lidnummer=t.lidnummer
-            LEFT JOIN postcode ON postcode.postcode=lid.postcode ORDER BY lidnummer ASC;";
+$lzien = "SELECT lid.*, email.emailadres, t.telefoonnummer, postcode.*
+    FROM lid 
+    LEFT JOIN email ON lid.lidnummer=email.lidnummer
+    LEFT JOIN telefoonnummers t ON lid.lidnummer=t.lidnummer
+    LEFT JOIN postcode ON postcode.postcode=lid.postcode
+    ORDER BY lidnummer ASC";
 $result = $mysqli->query($lzien);
-if (!$result) die("Database access failed");
+if (!$result) {
+    die("Could not fetch data from database");
+}
 
 $rows = $result->num_rows;
 echo "<table><tr><th>Lidnummer</th><th>Achternaam</th><th>Voornaam</th><th>Postcode</th><th>Huisnummer</th><th>Emailadres</th><th>Telefoonnummer</th><th>Postcode</th><th>Straat</th><th>Woonplaats</th></tr>";
@@ -53,7 +60,7 @@ echo <<<_END
 _END;
 
 
-$pcheck = " SELECT * FROM postcode";
+$pcheck = "SELECT * FROM postcode";
 $result = $mysqli->query($pcheck);
 if (!$result) die("Database access failed");
 $rows = $result->num_rows;
