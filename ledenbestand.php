@@ -1,12 +1,12 @@
 <?php
 
 require_once 'login.php';
+require_once 'functions-sql.php';
 
 $mysqli = new mysqli($hn, $un, $pw, $db);
 if ($mysqli->connect_error) {
     die("Could not connect to the database");
 }
-
 //Ledenbestand inzien
 echo <<<_END
 <html>
@@ -75,18 +75,3 @@ while ($row = $result->fetch_array(MYSQLI_NUM)) {
 echo "</table>";
 
 echo "<br><br><button type='button'><a href='toevoeg.php'>Postcode toevoegen</a></button>";
-
-
-function sanitizeString($var)
-{
-    $var = strip_tags($var);
-    $var = htmlentities($var);
-    return $var;
-}
-
-function sanitizeMySQL($mysqliection, $var)
-{
-    $var = $mysqliection->real_escape_string($var);
-    $var = sanitizeString($var);
-    return $var;
-}

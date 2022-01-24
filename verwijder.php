@@ -1,6 +1,8 @@
 <?php
 
 require_once 'login.php';
+require_once 'functions-sql.php';
+
 $mysqli = new mysqli($hn, $un, $pw, $db);
 if ($mysqli->connect_error) die("fatal error");
 
@@ -138,18 +140,3 @@ echo <<<_END
     </body>
 </html>
 _END;
-
-
-function sanitizeString($var)
-{
-    $var = strip_tags($var);
-    $var = htmlentities($var);
-    return $var;
-}
-
-function sanitizeMySQL($mysqliection, $var)
-{
-    $var = $mysqliection->real_escape_string($var);
-    $var = sanitizeString($var);
-    return $var;
-}
