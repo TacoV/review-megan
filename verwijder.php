@@ -1,5 +1,6 @@
 <?php
 
+require_once 'dev-settings.php';
 require_once 'login.php';
 require_once 'functions-sql.php';
 
