@@ -7,10 +7,8 @@ $mysqli = new mysqli($hn, $un, $pw, $db);
 if ($mysqli->connect_error) die("fatal error");
 
 $id = sanitizeString($_GET["id"]);
-if (isset($_GET["email"])) $temail = sanitizeString($_GET["email"]);
-else $temail = "";
-if (isset($_GET["telefoon"])) $ttelnr = sanitizeString($_GET["telefoon"]);
-else $ttelnr =  "";
+$temail = isset($_GET["email"]) ? sanitizeString($_GET["email"]) : "";
+$ttelnr = isset($_GET["telefoon"]) ? sanitizeString($_GET["telefoon"]) : "";
 
 if (isset($_POST['lver'])) {
 

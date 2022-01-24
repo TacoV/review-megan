@@ -8,11 +8,8 @@ if ($mysqli->connect_error) die("fatal error");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (isset($_GET["telefoon"])) $ttelnr = sanitizeString($_GET["telefoon"]);
-else $ttelnr =  "";
-
-if (isset($_GET["email"])) $temail = sanitizeString($_GET["email"]);
-else $temail = "";
+$ttelnr = isset($_GET["telefoon"]) ? sanitizeString($_GET["telefoon"]) : "";
+$temail = isset($_GET["email"]) ? sanitizeString($_GET["email"]) : "";
 
 $id = sanitizeString($_GET["id"]);
 $olidnr = sanitizeString($_GET["id"]);
