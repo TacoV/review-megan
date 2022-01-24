@@ -4,4 +4,3 @@ $hn = 'localhost';
 $db = 'vereniging2';
 $un = 'megan';
 $pw = 'megan';
-?>
