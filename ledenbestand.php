@@ -25,9 +25,9 @@ _END;
 //if (isset($_POST['lzien'])){    
 
     $lzien = "SELECT lid.*, email.emailadres, t.telefoonnummer, postcode.* FROM lid 
-            INNER JOIN email ON lid.lidnummer=email.lidnummer
-            INNER JOIN telefoonnummers t ON lid.lidnummer=t.lidnummer
-        INNER JOIN postcode ON postcode.postcode=lid.postcode ORDER BY lidnummer ASC;";
+            LEFT JOIN email ON lid.lidnummer=email.lidnummer
+            LEFT JOIN telefoonnummers t ON lid.lidnummer=t.lidnummer
+            LEFT JOIN postcode ON postcode.postcode=lid.postcode ORDER BY lidnummer ASC;";
     $result = $mysqli->query($lzien);
     if (!$result) die ("Database access failed");
 
